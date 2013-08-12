@@ -29,21 +29,22 @@ def save_cookie(cookie):
 		print "Error saving cookie! Check that wigle_cookie can be created and/or written to."
 
 def load_cookie():
-	cookie = "auth=zerokes%3A641472037%3A1375969681%3Aer9pUiJywFaw8APa4ustdQ"
+	cookie = "auth=zerokes%3A758447942%3A1375992219%3A6PRWiIpohn7Vxk7UQvIrZA"
 	return cookie
 
 def search_bssid(netid):
 	
 	cookie = load_cookie()
-	ssid = 0
-	bssid = 1
-	numberOfOctets = netid.count(":")
-	if (numberOfOctets != 5):
-		print "Invalid BSSID - %i octets found (should have 6)" %  (numberOfOctets + 1)
-		sys.exit()
-	length = len(netid)
-	if (length != 17):
-		print "Invalid BSSID - %i characters long (should be 17)" % length
+	ssid = 1
+	bssid = 0
+	if ":" in netid:
+		numberOfOctets = netid.count(":")
+		if (numberOfOctets != 5):
+			print "Invalid BSSID - %i octets found (should have 6)" %  (numberOfOctets + 1)
+			sys.exit()
+		length = len(netid)
+		if (length != 17):
+			print "Invalid BSSID - %i characters long (should be 17)" % length
 	
 	try:
 		headers = {"Accept-Encoding":"text/plain", "Cookie":cookie}
@@ -56,7 +57,7 @@ def search_bssid(netid):
 
 		reply = conn.getresponse()
 		data = reply.read()
-		#print data
+		print data
 	except:
 		print "Error connecting to WiGLE!"
 

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-   
 import wx
 import sys
-import darkMode
-from MapsWindow import MapsWindow
+import threading
 from APLocation import *
+from wigle_api_lite import *
 from  threading import *
 import time
+from scapyprobes import *
 
 class InitWindow(wx.Frame):
 	""" derive a new frame. """
@@ -53,17 +54,18 @@ class InitWindow(wx.Frame):
 
 		self.Layout()
 
-
 		t = Timer(0.01, self.uploadNewAPs)
 		t.daemon = True
 		t.start()
-		
 
+		t1 = threading.Thread(target=startSniffing)
+		t1.start()
+		#t1.join()
+		
 		self.positives = {}
 
 	def uploadNewAPs(self):
 		while(1):
-			print "ACTUALIZANDO APS"	
 			self.loadFile()
 			time.sleep(2)
 
@@ -105,7 +107,7 @@ class InitWindow(wx.Frame):
 		anAP = self.getSelectedAP()
 		if anAP is not None and self.positiveList.FindString(anAP[0])	== -1:
 			self.positiveList.Append(anAP[0])
-			positives[anAP[0]] = anAP[1]
+			self.positives[anAP[0]] = anAP[1]
 
 	
 	def deletePositive(self,anEvent):
@@ -118,7 +120,10 @@ class InitWindow(wx.Frame):
 		sel = self.positiveList.GetSelection()
 	
 		#crear nueva ventana con positives
-		self.aMapsWindow = search_bssid(positives[self.positiveList.GetString(sel)])		
+#		self.aMapsWindow = search_bssid(self.positives[self.positiveList.GetString(sel)])		
+
+		search_bssid(self.positiveList.GetString(sel))		
 		
-		#self.aMapsWindow.show()  
+		search_ssid(self.positiveList.GetString(sel))
+
 
