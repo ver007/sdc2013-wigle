@@ -1,8 +1,6 @@
 sdc2013-wigle
 =============
-Still working on getting it to work...
-
-New version must have search by ssid instead of bssid.
+Run airmon-ng start wlan0 to get monitor interface on.
 
 Run python scapyprobes.py to get probes.
 
