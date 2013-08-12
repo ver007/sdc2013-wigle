@@ -1,6 +1,5 @@
 #!/usr/bin/python
-# coding=utf-8
-# glenn@sensepost.com 
+# -*- coding: utf-8 -*-# 
 # Snoopy // 2012
 # By using this code you agree to abide by the supplied LICENSE.txt
 
@@ -71,14 +70,6 @@ def wigle(account,ssid):
 	             		logging.debug("[-] An error occured whilst looking up '%s' with Wigle account '%s' (via %s)!" % (ssid,user,proxy))
 				return {'error':'Text response contained "An Error has occurred"'}
 	            	elif('Showing stations' in r.text):
-
-				string = '/gps/gps/Map/onlinemap2/.*">Get Map</a>'
-				extractor = re.compile(r'%s' %string)
-				results = re.findall(extractor, r.text)
-				#supongo que devuelve un uno link 
-				print "ACAAAAAAAAAAAAAAAA"
-				print results
-				link = results[0].split('"')[0]
 	
 				locations=fetch_locations(r.text,ssid)
 				#pp.pprint(locations)
@@ -160,7 +151,7 @@ def getAddress(lat,lng):
         base_img='http://maps.googleapis.com/maps/api/streetview?size=800x800&sensor=false&location='
         cords="%s,%s" %(lat,lng)
 
-	logging.info("Saving streetview to %s/%s.jpg"%(save_dir,cords))
+		#logging.info("Saving streetview to %s/%s.jpg"%(save_dir,cords))
         urllib.urlretrieve(base_img+cords,"%s/%s.jpg"%(save_dir,cords))
 
         failed=0
@@ -212,15 +203,15 @@ def fetchLocations(ssid):
 
 	locations=wigle(account,ssid)
 
-	if locations != None and 'error' not in locations:
+#	if locations != None and 'error' not in locations:
 		
-		if (locations != None and locations[0]['overflow'] == 0):	
-			for l in locations:
-				l['ga']=getAddress(l['lat'],l['long'])
+#		if (locations != None and locations[0]['overflow'] == 0):	
+#			for l in locations:
+#				l['ga']=getAddress(l['lat'],l['long'])
 
-		elif locations != None:
-			for l in locations:
-				l['ga']={}
+#		elif locations != None:
+#			for l in locations:
+#				l['ga']={}
 
 	#logging.debug(locations)
 	return locations
@@ -228,6 +219,4 @@ def fetchLocations(ssid):
 def search_ssid(ssid):
 	logging.basicConfig(level=logging.DEBUG,format='%(asctime)s %(levelname)s %(filename)s: %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
 
-	print fetchLocations(ssid)  
-    #pp.pprint(fetchLocations(ssid))
-
+	return fetchLocations(ssid)  

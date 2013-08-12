@@ -66,9 +66,10 @@ def search_bssid(netid):
 		extractor = re.compile(r'%s' %string)
 		results = re.findall(extractor,data)
 		#supongo que devuelve un uno link 
-		link = results[0].split('"')[0]
-	
-		webbrowser.open("http://wigle.net"+link)
+
+		for res in results: 
+			link = res.split('"')[0]
+			webbrowser.open("http://wigle.net"+link)
 
 		conn.close()
 

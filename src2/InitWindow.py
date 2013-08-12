@@ -5,8 +5,9 @@ import threading
 from APLocation import *
 from wigle_api_lite import *
 from  threading import *
+from GMaps import *
 import time
-from scapyprobes import *
+#from scapyprobes import *
 
 class InitWindow(wx.Frame):
 	""" derive a new frame. """
@@ -47,8 +48,6 @@ class InitWindow(wx.Frame):
 		box.Add(self.positiveList, 1, wx.ALL|wx.EXPAND,border =5)
 		box.AddSpacer(10)
 
-		#darkMode.darkMode(self, self.GetBackgroundColour())
-
 		self.SetAutoLayout(True)
 		self.SetSizer(box)
 
@@ -58,8 +57,8 @@ class InitWindow(wx.Frame):
 		t.daemon = True
 		t.start()
 
-		t1 = threading.Thread(target=startSniffing)
-		t1.start()
+		#t1 = threading.Thread(target=startSniffing)
+		#t1.start()
 		#t1.join()
 		
 		self.positives = {}
@@ -82,7 +81,7 @@ class InitWindow(wx.Frame):
 		#link = results[0].split('"')[0]
 
 		for line in fileap:
-			data = line.split(' ')
+			data = line.split('|') #####   ( | ESCAPE CHARACTER FOR FILE (NOT WORKING FOR ANY WIFI WITH NAME WITH  | )
 			if self.apList.FindItem(-1,data[0]) == -1:
 				index = self.apList.InsertStringItem(sys.maxint,data[0])
 				self.apList.SetStringItem(index, 1, data[1])
@@ -122,8 +121,13 @@ class InitWindow(wx.Frame):
 		#crear nueva ventana con positives
 #		self.aMapsWindow = search_bssid(self.positives[self.positiveList.GetString(sel)])		
 
-		search_bssid(self.positiveList.GetString(sel))		
+#		search_bssid(self.positiveList.GetString(sel))		
 		
-		search_ssid(self.positiveList.GetString(sel))
+		print self.positiveList.GetString(sel)
 
+		results = search_ssid(self.positiveList.GetString(sel))
+	
+		self.aMapsWindow =  MapsWindow(results)
+
+		self.aMapsWindow.show()
 
