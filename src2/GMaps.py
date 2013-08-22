@@ -43,9 +43,9 @@ class MapsWindow:
 
 	for pos in self.aps:
 		print  pos['lat']
-		print "FLOAT %s" %float(pos['lat'])
+		#print "FLOAT %s" %float(pos['lat'])
 		print pos['long']
-		print "FLOAT %s" %float(pos['long'])
+		#print "FLOAT %s" %float(pos['long'])
 	
 		longitud = float(pos['long'])
 		latitud = float(pos['lat'])

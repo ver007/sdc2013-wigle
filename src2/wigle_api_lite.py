@@ -99,7 +99,6 @@ def fetch_locations(text,ssid):
 	        	row=line.findAll('td')
 	                if( row[2].string.lower() == ssid.lower()):
 	                        	locations.append({'ssid':ssid,'mac':row[1].string, 'last_seen':row[9].string, 'last_update':row[15].string, 'lat':row[12].string, 'long':row[13].string,'overflow':overflow})
-	                        	#locations.append({'ssid':row[2].string,'mac':row[1].string, 'last_seen':row[9].string, 'last_update':row[15].string, 'lat':row[12].string, 'long':row[13].string,'overflow':overflow})
 		except Exception:
 			pass
 
@@ -129,7 +128,8 @@ def fetch_locations(text,ssid):
 
         locations=tmp
 	if( len(locations) == 0):
-		locations.append({'ssid':ssid,'mac':'', 'last_seen':'', 'last_update':'', 'lat':'', 'long':'','overflow':-1}) #No results, just return the ssid
+		print "HOLA"		
+		#locations.append({'ssid':ssid,'mac':'', 'last_seen':'', 'last_update':'', 'lat':'', 'long':'','overflow':-1}) #No results, just return the ssid
  
        	return locations        # Return list of locations
 
