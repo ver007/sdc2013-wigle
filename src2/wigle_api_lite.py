@@ -44,7 +44,7 @@ def wigle(account,ssid):
 	payload={'credential_0':user, 'credential_1':password}
 	try:
 		r = requests.post(url['login'],data=payload,proxies=proxies,timeout=10)
-		r.cookies = {'auth':'zerokes%3A758447942%3A1375992219%3A6PRWiIpohn7Vxk7UQvIrZA'}
+		r.cookies = {'auth':'sdc2013%3A608040337%3A1377134974%3A60Bb5fSaNBm3EiVVHm5cAQ'}
 	except Exception, e: #(requests.exceptions.ConnectionError,requests.exceptions.Timeout), e:
 		logging.debug("[E] Unable to connect via proxy %s. Thread returning." %(proxy))
 		print e
