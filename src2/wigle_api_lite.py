@@ -39,22 +39,11 @@ def wigle(account,ssid):
 	#1. Create HTTP objects with proxy
 	user,password,proxy=account
 	proxies = {"http":proxy,"https":proxy}	
-	#2. Log in to Wigle
-	#logging.debug("[+] Logging into wigle with %s:%s via proxy '%s'" %(user,password,proxy))
-	#payload={'credential_0':user, 'credential_1':password}
 	try:
-		#r = requests.post(url['login'],data=payload,proxies=proxies,timeout=10)
 		cookies = {'auth':'sdc2013%3A214285525%3A1377282951%3Aq%2B1NhdXAnWpZCt8mu9u%2FPA'}
 	except Exception, e: #(requests.exceptions.ConnectionError,requests.exceptions.Timeout), e:
-	#	logging.debug("[E] Unable to connect via proxy %s. Thread returning." %(proxy))
-		print e
-	#	return {'error':e}
-	#if( 'Please login' in r.text or 'auth' not in r.cookies):
-	#	logging.debug("[-] Error logging in with credentials %s:%s. Thread returning." %(user,password))
-	#	return {'error':'Unable to login to wigle'}
-		#exit(-1)
-	#else:
-	#	logging.debug("[-] Successfully logged in with credentials %s:%s via %s." %(user,password,proxy))
+		print e	
+
 	cookies=dict(auth=cookies['auth'])
 	#3. Poll SSID queue
 	#logging.debug("[-] Looking up %s (%s %s)" %(ssid,user,proxy))
