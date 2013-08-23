@@ -53,15 +53,14 @@ class InitWindow(wx.Frame):
 
 		self.Layout()
 
-		t = Timer(0.01, self.uploadNewAPs)
-		t.daemon = True
-		t.start()
+		self.timer = wx.Timer(self)
+		self.timer.Start(3000)
+		self.Bind(wx.EVT_TIMER, self.OnTimer)
 
-		#t1 = threading.Thread(target=startSniffing)
-		#t1.start()
-		#t1.join()
-		
 		self.positives = {}
+
+	def OnTimer(self, evt):
+			self.loadFile()
 
 	def uploadNewAPs(self):
 		while(1):
@@ -71,14 +70,6 @@ class InitWindow(wx.Frame):
 
 	def loadFile(self):
 		fileap = open('../data/ap', 'r') 
-
-		#  0.000000 38:0a:94:8b:47:40 -> ff:ff:ff:ff:ff:ff 802.11 146 Probe Request, SN=834, FN=0, Flags=........C, SSID=Broadcast
-
-		#string = '\d*.\d* .* -> .* 802.11 .* SSID=.* '
-		#extractor = re.compile(r'%s' %string)
-		#results = re.findall(extractor,data)
-		#supongo que devuelve un uno link 
-		#link = results[0].split('"')[0]
 
 		for line in fileap:
 			data = line.split('|') #####   ( | ESCAPE CHARACTER FOR FILE (NOT WORKING FOR ANY WIFI WITH NAME WITH  | )
@@ -130,4 +121,5 @@ class InitWindow(wx.Frame):
 		self.aMapsWindow =  MapsWindow(results)
 
 		self.aMapsWindow.show()
+
 

@@ -40,28 +40,27 @@ def wigle(account,ssid):
 	user,password,proxy=account
 	proxies = {"http":proxy,"https":proxy}	
 	#2. Log in to Wigle
-	logging.debug("[+] Logging into wigle with %s:%s via proxy '%s'" %(user,password,proxy))
-	payload={'credential_0':user, 'credential_1':password}
+	#logging.debug("[+] Logging into wigle with %s:%s via proxy '%s'" %(user,password,proxy))
+	#payload={'credential_0':user, 'credential_1':password}
 	try:
-		r = requests.post(url['login'],data=payload,proxies=proxies,timeout=10)
-		r.cookies = {'auth':'sdc2013%3A608040337%3A1377134974%3A60Bb5fSaNBm3EiVVHm5cAQ'}
+		#r = requests.post(url['login'],data=payload,proxies=proxies,timeout=10)
+		cookies = {'auth':'sdc2013%3A214285525%3A1377282951%3Aq%2B1NhdXAnWpZCt8mu9u%2FPA'}
 	except Exception, e: #(requests.exceptions.ConnectionError,requests.exceptions.Timeout), e:
-		logging.debug("[E] Unable to connect via proxy %s. Thread returning." %(proxy))
+	#	logging.debug("[E] Unable to connect via proxy %s. Thread returning." %(proxy))
 		print e
-		return {'error':e}
-	if( 'Please login' in r.text or 'auth' not in r.cookies):
-		logging.debug("[-] Error logging in with credentials %s:%s. Thread returning." %(user,password))
-		return {'error':'Unable to login to wigle'}
+	#	return {'error':e}
+	#if( 'Please login' in r.text or 'auth' not in r.cookies):
+	#	logging.debug("[-] Error logging in with credentials %s:%s. Thread returning." %(user,password))
+	#	return {'error':'Unable to login to wigle'}
 		#exit(-1)
-	else:
-		logging.debug("[-] Successfully logged in with credentials %s:%s via %s." %(user,password,proxy))
-	cookies=dict(auth=r.cookies['auth'])
+	#else:
+	#	logging.debug("[-] Successfully logged in with credentials %s:%s via %s." %(user,password,proxy))
+	cookies=dict(auth=cookies['auth'])
 	#3. Poll SSID queue
-	logging.debug("[-] Looking up %s (%s %s)" %(ssid,user,proxy))
+	#logging.debug("[-] Looking up %s (%s %s)" %(ssid,user,proxy))
 	payload={'longrange1': '-57', 'longrange2': '-59', 'latrange1': '-33', 'latrange2':'-35', 'statecode': '', 'Query': '', 'addresscode': '', 'ssid': ssid, 'lastupdt': '', 'netid': '', 'zipcode':'','variance': ''}
 	try:
 		cookie = {'auth':'zerokes%3A758447942%3A1375992219%3A6PRWiIpohn7Vxk7UQvIrZA'}
-	#	r = requests.post('https://wigle.net/gps/gps/main/confirmquery/?ssid='+ssid+'&simple=true',cookies=cookie)
 		r = requests.post(url['query'],data=payload,proxies=proxies,cookies=cookies,timeout=10)
 		if( r.status_code == 200):
 	        	if('too many queries' in r.text):
@@ -72,7 +71,6 @@ def wigle(account,ssid):
 	            	elif('Showing stations' in r.text):
 	
 				locations=fetch_locations(r.text,ssid)
-				#pp.pprint(locations)
 				return locations
 			else:
 				logging.debug("[-] Unknown error occured whilst looking up '%s' with Wigle account '%s' (via %s)!" % (ssid,user,proxy))
@@ -128,8 +126,7 @@ def fetch_locations(text,ssid):
 
         locations=tmp
 	if( len(locations) == 0):
-		print "HOLA"		
-		#locations.append({'ssid':ssid,'mac':'', 'last_seen':'', 'last_update':'', 'lat':'', 'long':'','overflow':-1}) #No results, just return the ssid
+		print "NO RESULTS FOUND"	
  
        	return locations        # Return list of locations
 
@@ -203,17 +200,6 @@ def fetchLocations(ssid):
 
 	locations=wigle(account,ssid)
 
-#	if locations != None and 'error' not in locations:
-		
-#		if (locations != None and locations[0]['overflow'] == 0):	
-#			for l in locations:
-#				l['ga']=getAddress(l['lat'],l['long'])
-
-#		elif locations != None:
-#			for l in locations:
-#				l['ga']={}
-
-	#logging.debug(locations)
 	return locations
 	
 def search_ssid(ssid):
